@@ -68,7 +68,14 @@ class _ProductItemState extends State<ProductItem> {
               Navigator.push(context,MaterialPageRoute(builder: (context)=>UpdateProductScreen(
                 product: widget.product,
 
-              )));
+              )
+              )
+              ).then((needRefresh){
+                debugPrint('updated:$needRefresh');
+                if(needRefresh == true){
+                  widget.refreshproductList();
+                }
+              });
             }
           },
         ),

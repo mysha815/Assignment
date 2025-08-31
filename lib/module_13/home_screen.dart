@@ -86,9 +86,12 @@ class _homescreenState extends State<homescreen> {
       ),
       floatingActionButton: FloatingActionButton(onPressed: (){
         Navigator.push(context, MaterialPageRoute(builder: (context)=> AddNewProductScreen()));
+
       },
         child: Icon(Icons.add),
       ),
+
+
     );
   }
 }

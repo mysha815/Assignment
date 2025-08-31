@@ -172,7 +172,7 @@ class _UpdateProductScreenState extends State<UpdateProductScreen> {
     setState(() {
 
     });
-    Uri uri = Uri.parse('http://35.73.30.144:2008/api/v1/UpdateProduct/65abe919f68794d36c5b7ffa');
+    Uri uri = Uri.parse('http://35.73.30.144:2008/api/v1/UpdateProduct/${widget.product.id}');
 
     int totalprice = int.parse(_PriceTEController.text)* int.parse(_QuantityTEController.text);
     Map<String,dynamic> requestBody ={
