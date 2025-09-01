@@ -7,6 +7,7 @@ import '../Widget/product_item.dart';
 import '../models/product_model.dart';
 import 'AddNewProductScreen.dart';
 import 'UpdateProductScreen.dart';
+
 class homescreen extends StatefulWidget {
   const homescreen({super.key});
 
@@ -15,8 +16,8 @@ class homescreen extends StatefulWidget {
 }
 
 class _homescreenState extends State<homescreen> {
- final List<ProductModel> _productList=[];
- bool _getProductInProgress=false;
+  final List<ProductModel> _productList = [];
+  bool _getProductInProgress = false;
 
   @override
   void initState() {
@@ -24,44 +25,38 @@ class _homescreenState extends State<homescreen> {
     _getProductList();
   }
 
-
-  Future<void> _getProductList() async{
+  Future<void> _getProductList() async {
     _productList.clear();
-    _getProductInProgress=true;
-    setState(() {
+    _getProductInProgress = true;
+    setState(() {});
+    Uri uri = Uri.parse(Urls.getProductList);
+    Response response = await get(uri);
+    debugPrint(response.statusCode.toString());
+    debugPrint(response.body);
 
-    });
-    Uri uri =Uri.parse(Urls.getProductList);
-     Response response = await get(uri);
-     debugPrint(response.statusCode.toString());
-     debugPrint(response.body);
+    if (response.statusCode == 200) {
+      final decodedjson = jsonDecode(response.body);
+      for (Map<String, dynamic> productjson in decodedjson['data']) {
+        ProductModel productModel = ProductModel.fromjson(productjson);
+        _productList.add(productModel);
+      }
+    }
 
-     if(response.statusCode == 200){
-       final decodedjson = jsonDecode(response.body);
-       for(Map<String,dynamic> productjson in decodedjson['data']){
-         ProductModel productModel = ProductModel.fromjson(productjson);
-         _productList.add(productModel);
-       }
-     }
+    _getProductInProgress = false;
 
-     _getProductInProgress=false;
-
-     setState(() {
-
-     });
-
+    setState(() {});
   }
 
   Widget build(BuildContext context) {
-    
-
     return Scaffold(
       appBar: AppBar(
         title: Text('Product List'),
         actions: [
-          IconButton(onPressed: (){
-            _getProductList();
-          }, icon: Icon(Icons.refresh))
+          IconButton(
+              onPressed: () {
+                _getProductList();
+              },
+              icon: Icon(Icons.refresh))
         ],
       ),
       body: Visibility(
@@ -71,29 +66,28 @@ class _homescreenState extends State<homescreen> {
         ),
         child: ListView.separated(
           itemCount: _productList.length,
-          itemBuilder: (context,index){
-            return ProductItem(product: _productList[index],
+          itemBuilder: (context, index) {
+            return ProductItem(
+              product: _productList[index],
               refreshproductList: () {
-              _getProductList();
-              },);
+                _getProductList();
+              },
+            );
           },
-          separatorBuilder: (context,index){
+          separatorBuilder: (context, index) {
             return Divider(
               indent: 70,
             );
           },
         ),
       ),
-      floatingActionButton: FloatingActionButton(onPressed: (){
-        Navigator.push(context, MaterialPageRoute(builder: (context)=> AddNewProductScreen()));
-
-      },
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.push(context,
+              MaterialPageRoute(builder: (context) => AddNewProductScreen()));
+        },
         child: Icon(Icons.add),
       ),
-
-
     );
   }
 }
-
-
