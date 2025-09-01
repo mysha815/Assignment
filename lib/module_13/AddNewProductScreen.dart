@@ -188,7 +188,7 @@ class _AddNewProductScreenState extends State<AddNewProductScreen> {
       }
     }
     print(response.body);
-    _addProductInProgress== false;
+    _addProductInProgress = false;
     setState(() {
     });
   }

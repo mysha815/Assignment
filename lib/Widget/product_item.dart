@@ -23,20 +23,24 @@ class _ProductItemState extends State<ProductItem> {
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      leading: Image.network(
-        widget.product.image,
-        errorBuilder: (_,__,___){
-          return Icon(Icons.error_outline);
-        },
+      leading: SizedBox(
+        height: 70,
+        width: 70,
+        child: Image.network(
+          widget.product.image,
+          errorBuilder: (_,__,___){
+            return Icon(Icons.error_outline);
+          },
+        ),
       ),
-      title: Text(widget.product.name),
+      title: Text(widget.product.name,style: TextStyle(fontSize: 20),),
       subtitle: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text('Code :${widget.product.code}'),
           Row(
             children: [
-              Text('Quantity :${widget.product.quantity}'),
+              Text('Quantity :${widget.product.quantity}',style: TextStyle(fontSize: 16),),
               SizedBox(width: 10,),
               Text('Unit :${widget.product.unitPrice}'),
             ],
